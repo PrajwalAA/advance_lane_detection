@@ -126,11 +126,19 @@ def prepare_out_blend_frame(blend_on_road, img_binary, img_birdeye, img_fit, lin
     thumb_birdeye = cv2.resize(img_birdeye, (thumb_w, thumb_h)) # img_birdeye is already 3-channel in mock
     thumb_img_fit = cv2.resize(img_fit, (thumb_w, thumb_h))
 
-    # Place thumbnails
-    blend_on_road[off_y:thumb_h+off_y, off_x:off_x+thumb_w, :] = thumb_binary
-    blend_on_road[off_y:thumb_h+off_y, 2*off_x+thumb_w:2*off_x+2*thumb_w, :] = thumb_birdeye
-    blend_on_road[off_y:thumb_h+off_y, 3*off_x+2*thumb_w:3*off_x+3*thumb_w, :] = thumb_img_fit
+    # --- DEFENSIVE CHECK AND PLACEMENT ---
+    # Calculate the end position of the third thumbnail (start + width)
+    end_x_thumb_3 = 3*off_x + 3*thumb_w
 
+    if end_x_thumb_3 < w:
+        # Place thumbnails (Original line indices confirmed to be mathematically sound)
+        blend_on_road[off_y:thumb_h+off_y, off_x:off_x+thumb_w, :] = thumb_binary
+        blend_on_road[off_y:thumb_h+off_y, 2*off_x+thumb_w:2*off_x+2*thumb_w, :] = thumb_birdeye
+        blend_on_road[off_y:thumb_h+off_y, 3*off_x+2*thumb_w:3*off_x+3*thumb_w, :] = thumb_img_fit
+    else:
+        # Fallback message if thumbnails don't fit
+        cv2.putText(blend_on_road, "Thumbnails skipped (Frame too narrow)", (off_x, off_y + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
+    
     # Add metrics text
     mean_curvature_meter = np.mean([line_lt.curvature_meter, line_rt.curvature_meter])
     font = cv2.FONT_HERSHEY_SIMPLEX
