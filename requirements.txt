@@ -1,6 +1,8 @@
-opencv-python==4.8.1.78
-numpy==1.24.3
-matplotlib==3.7.2
-moviepy==1.0.3
-streamlit==1.26.0
-Pillow==10.0.0
+numpy
+opencv-python
+matplotlib
+moviepy
+streamlit
+Pillow
+imageio
+imageio-ffmpeg
