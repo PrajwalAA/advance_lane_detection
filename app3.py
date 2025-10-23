@@ -227,7 +227,7 @@ if video_file or (option=="Use Sample Video" and os.path.exists(SAMPLE_VIDEO_PAT
             out.write(processed_frame)
 
             if frame_count % 5 == 0:
-                frame_placeholder.image(processed_frame, channels="BGR", use_column_width=True, caption=f"Frame {frame_count}")
+                frame_placeholder.image(processed_frame, channels="BGR",use_container_width=True, caption=f"Frame {frame_count}")
 
             frame_count += 1
             progress_bar.progress(min(frame_count/total_frames, 1.0))
