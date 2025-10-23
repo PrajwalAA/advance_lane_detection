@@ -1,8 +1,14 @@
-numpy
+# Core computer vision & video
 opencv-python
+numpy
 matplotlib
 moviepy
-streamlit
 Pillow
 imageio
 imageio-ffmpeg
+
+# Web / GUI
+streamlit
+
+# Optional utilities (for smooth Streamlit visuals)
+rich
